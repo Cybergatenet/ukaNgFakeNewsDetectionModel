@@ -47,3 +47,39 @@ function closeModal(modal) {
     modal.classList.remove('active')
     overlay.classList.remove('active')
   }
+
+/////////////////////////////////////////////////////////////////////////////////////////
+// get the 2 text input that are available
+const predictionTEXT = document.querySelector("#prediction-text")
+const predictionURL = document.querySelector("#prediction-url")
+const predictTEXT = document.querySelector("#predict-text")
+const predictURL = document.querySelector("#predict-url")
+
+predictURL.addEventListener("click", async (e) => {
+    e.preventDefault()
+    predictURL.innerHTML = "<h5>Loading...</h5>"
+     predictTEXT.setAttribute('disable', 'true')
+
+    const newsText = predictionURL.value;
+    
+    window.location.href = "./fake-news-detector.html"
+
+    // when completed !!
+    predictURL.innerHTML = "<h5>Predict</h5>"
+     predictTEXT.setAttribute('disable', 'false')
+})
+
+// Second button |||||||||||||||||||||||||||||||||||| SECOND BUTTON
+predictTEXT.addEventListener("click", async (e) => {
+    e.preventDefault()
+    predictTEXT.innerHTML = "<h5>Loading...</h5>"
+    predictTEXT.setAttribute('disable', 'true')
+
+    const newsText = predictionTEXT.value;
+    
+    window.location.href = "./fake-news-detector.html"
+
+    // when completed !!
+    predictTEXT.innerHTML = "<h5>Predict</h5>"
+    predictTEXT.setAttribute('disable', 'false')
+})
