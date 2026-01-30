@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fake News Detector</title>
+    <!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous"> -->
+    <link rel="stylesheet" href="Style.css">
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.1/css/all.css" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+</head>
+<body>
+    <div class="overlay-container">
+        <div class="modal" id="modal">
+            <div class="modal-header">
+                <div class="title">About This Project</div>
+                <button data-close-button class="close-button">&times;</button>
+            </div>
+
+            <div class="modal-body">
+                <div id="container">
+                    <div id="circle"><img src="images/background-main.png" alt="ronish"></div>
+                    <span>UKANWOLU NGOZI GRACE</span>
+                    <p style="font-size: 11px;">This study aim to develop an AI-powered fake news detection system that uses sentiment analysis to identify misinformation on social media platforms.</p>
+                    <span class="image">
+                        <a href="#" class="fa fa-facebook fa-1x"></a>
+                        <a href="#" class="fa fa-linkedin fa-1x"></a>
+                        <a href="#" class="fa fa-github fa-1x"></a>
+                        <a href="#" class="fa fa-instagram fa-1x"></a>
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="overlay"></div>
+    
+    <div class="top-shadow"></div>
+    <div class="bottom-shadow"></div>
+    
+    <span class="text"><h1>FAKE NEWS DETECTOR</h1></span>    
+    <div class="search-box">
+        <span class="options">
+            <button class="article-btn" onclick="toggleContent(1)">For Article</button>
+            <button class="article-btn" onclick="toggleContent(0)">For Url</button>
+        </span>
+
+        <div class="article-div">
+            <form action='' method='POST'>              
+                <input type="text" style="min-width: 100%;" id="prediction-text" required placeholder="Enter your text here..">
+                <!-- <button type="submit"><i class="fa fa-search" style="font-size:24px"></i></button> -->
+                <button type="submit" class="predict-btn" id="predict-text"><h5>Predict</h5></button>
+            </form>
+        </div>
+
+        <div class="url-div" style="display: flex; align-items: right; justify-content: space-between;">
+            <form method="POST" action=''>
+                <input type="url" required name="url-article" id="prediction-url" size="50" placeholder="Paste your URL here...">
+                <button type="submit" class="predict-btn" id="predict-url"><h5>Predict</h5></button>
+            </form>
+        </div>
+
+        <h4 class="below_textarea">"The News is <span style="color: whitesmoke;">Real</span>"</h4>
+    </div>
+    
+    <div class="footer">
+        <div id="box-1">
+            
+            <button data-modal-target="#modal">About This Project</button>
+            <ul>
+                <!-- <li>IDENTIFYING FAKE NEWS IN SOCIAL MEDIA BASED ON SENTIMENT ANALYSIS USING ARTIFICIAL INTELLIGENCE</li> -->
+                <li>USING AI TO IDENTIFY SOCIAL MEDIA FAKE NEWS BASED ON SENTIMENT ANALYSIS</li>
+
+            </ul><br>
+            <span id="copyright_text"><i id="copyright" class="fas fa-copyright fa-lg"></i>
+                <h4>MICHAEL OKPARA UNIVERSITY OF AGRICULTURE, UMUDIKE <br>
+                    COLLEGE OF PHYSICAL AND APPLIED SCIENCES <br>
+                    DEPARTMENT OF COMPUTER SCIENCE
+                </h4></span>
+        </div>
+
+        <div id="box-2">
+            <img class = "footer-image" src="images/footer_image.jpg" alt="footer_image">
+            <h4>News</h4>
+            <h5>With growing news in online portal, connect with this app for detecting the correct news</h5>
+            <span class="image">
+                <a href="#" class="fa fa-facebook fa-lg"></a>
+                <a href="#" class="fa fa-instagram fa-lg"></a>
+            </span>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

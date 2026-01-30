@@ -1,0 +1,607 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Free Fake News Detector</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Arial, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            padding: 20px;
+        }
+        
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            overflow: hidden;
+        }
+        
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 30px;
+            text-align: center;
+        }
+        
+        h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            opacity: 0.9;
+            font-size: 1.1em;
+        }
+        
+        main {
+            padding: 30px;
+        }
+        
+        .input-section {
+            margin-bottom: 30px;
+        }
+        
+        textarea {
+            width: 100%;
+            min-height: 200px;
+            padding: 20px;
+            border: 2px solid #e0e0e0;
+            border-radius: 10px;
+            font-size: 16px;
+            line-height: 1.5;
+            resize: vertical;
+            transition: border-color 0.3s;
+        }
+        
+        textarea:focus {
+            outline: none;
+            border-color: #667eea;
+        }
+        
+        .button-group {
+            display: flex;
+            gap: 10px;
+            margin-top: 20px;
+        }
+        
+        button {
+            flex: 1;
+            padding: 15px;
+            border: none;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        
+        #analyzeBtn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+        
+        #analyzeBtn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+        }
+        
+        #clearBtn {
+            background: #f5f5f5;
+            color: #666;
+        }
+        
+        #clearBtn:hover {
+            background: #e0e0e0;
+        }
+        
+        .result-section {
+            display: none;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        
+        .result-card {
+            border-radius: 15px;
+            padding: 25px;
+            margin-top: 20px;
+        }
+        
+        .result-header {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 20px;
+        }
+        
+        .verdict-icon {
+            font-size: 2em;
+        }
+        
+        .verdict-text {
+            font-size: 1.8em;
+            font-weight: bold;
+        }
+        
+        .score-meter {
+            margin: 25px 0;
+        }
+        
+        .score-label {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 8px;
+        }
+        
+        .meter {
+            height: 20px;
+            background: #f0f0f0;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        
+        .meter-fill {
+            height: 100%;
+            border-radius: 10px;
+            transition: width 1s ease;
+        }
+        
+        .indicators {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 15px;
+            margin: 25px 0;
+        }
+        
+        .indicator {
+            background: #f8f9fa;
+            padding: 15px;
+            border-radius: 10px;
+            border-left: 4px solid #667eea;
+        }
+        
+        .indicator-title {
+            font-weight: 600;
+            color: #333;
+            margin-bottom: 5px;
+        }
+        
+        .indicator-value {
+            font-size: 1.2em;
+            font-weight: bold;
+        }
+        
+        .tips {
+            background: #e3f2fd;
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 25px;
+        }
+        
+        .tips h3 {
+            color: #1976d2;
+            margin-bottom: 15px;
+        }
+        
+        .tips ul {
+            list-style-position: inside;
+            color: #555;
+        }
+        
+        .tips li {
+            margin-bottom: 8px;
+        }
+        
+        .loading {
+            text-align: center;
+            padding: 30px;
+            display: none;
+        }
+        
+        .spinner {
+            width: 50px;
+            height: 50px;
+            border: 5px solid #f3f3f3;
+            border-top: 5px solid #667eea;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 20px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        
+        .sample-news {
+            margin-top: 20px;
+        }
+        
+        .sample-buttons {
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+        
+        .sample-btn {
+            background: #e0e0e0;
+            border: none;
+            padding: 8px 15px;
+            border-radius: 20px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        .sample-btn:hover {
+            background: #d0d0d0;
+        }
+        
+        @media (max-width: 600px) {
+            .container {
+                margin: 10px;
+                border-radius: 15px;
+            }
+            
+            main {
+                padding: 20px;
+            }
+            
+            .button-group {
+                flex-direction: column;
+            }
+            
+            .indicators {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>📰 Fake News Detector</h1>
+            <p class="subtitle">100% Free • No API Keys • Instant Analysis</p>
+        </header>
+        
+        <main>
+            <section class="input-section">
+                <h2>Paste News Article</h2>
+                <textarea id="newsInput" placeholder="Paste or type news article here..."></textarea>
+                
+                <div class="sample-news">
+                    <p style="margin-bottom: 10px; color: #666;">Try sample news:</p>
+                    <div class="sample-buttons">
+                        <button class="sample-btn" onclick="loadSample('fake')">Sample Fake News</button>
+                        <button class="sample-btn" onclick="loadSample('real')">Sample Real News</button>
+                        <button class="sample-btn" onclick="loadSample('clickbait')">Sample Clickbait</button>
+                    </div>
+                </div>
+                
+                <div class="button-group">
+                    <button id="analyzeBtn" onclick="analyzeNews()">
+                        🔍 Analyze News
+                    </button>
+                    <button id="clearBtn" onclick="clearText()">
+                        🗑️ Clear Text
+                    </button>
+                </div>
+            </section>
+            
+            <div class="loading" id="loading">
+                <div class="spinner"></div>
+                <p>Analyzing article for fake news indicators...</p>
+            </div>
+            
+            <section class="result-section" id="resultSection">
+                <div class="result-card" id="resultCard">
+                    <!-- Results will be inserted here -->
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script src="https://unpkg.com/compromise"></script>
+    <script>
+        // Sample news articles
+        const samples = {
+            fake: `BREAKING: Government secretly adding mind control chemicals to drinking water! Officials confirm this shocking truth they've been hiding for years. Click here to learn the secret they don't want you to know! Share this NOW before it gets deleted!!!`,
+            
+            real: `The World Health Organization announced new guidelines for COVID-19 prevention today. Health experts recommend continued vaccination and mask-wearing in crowded indoor spaces. Studies show these measures reduce transmission by up to 70%.`,
+            
+            clickbait: `YOU WON'T BELIEVE what this celebrity did! Doctors hate this one simple trick for weight loss. Click to see the shocking before and after photos! This will change your life FOREVER!`
+        };
+
+        // Load sample news
+        function loadSample(type) {
+            document.getElementById('newsInput').value = samples[type];
+        }
+
+        // Clear text area
+        function clearText() {
+            document.getElementById('newsInput').value = '';
+            document.getElementById('resultSection').style.display = 'none';
+        }
+
+        // Main analysis function
+        async function analyzeNews() {
+            const text = document.getElementById('newsInput').value.trim();
+            
+            if (!text) {
+                alert('Please enter some news text to analyze.');
+                return;
+            }
+            
+            // Show loading
+            document.getElementById('loading').style.display = 'block';
+            document.getElementById('resultSection').style.display = 'none';
+            
+            // Simulate processing time
+            setTimeout(() => {
+                const analysis = analyzeNewsText(text);
+                displayResults(analysis);
+                
+                // Hide loading, show results
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('resultSection').style.display = 'block';
+            }, 800); // Brief delay for UX
+        }
+
+        // Core analysis logic
+        function analyzeNewsText(text) {
+            const nlp = window.nlp(text);
+            
+            // 1. Calculate Fake News Score
+            const indicators = {
+                // Red Flags (High weight)
+                exclamationCount: (text.match(/!/g) || []).length,
+                allCapsWords: (text.match(/\b[A-Z]{3,}\b/g) || []).length,
+                clickbaitPhrases: countOccurrences(text, [
+                    'click here', 'share now', 'breaking', 'shocking',
+                    'you won\'t believe', 'doctors hate', 'secret',
+                    'hidden truth', 'they don\'t want you to know',
+                    'urgent', 'act now', 'limited time'
+                ]),
+                
+                // Yellow Flags (Medium weight)
+                questionMarks: (text.match(/\?/g) || []).length,
+                emotionalWords: countOccurrences(text, [
+                    'amazing', 'incredible', 'unbelievable',
+                    'horrifying', 'terrifying', 'mind-blowing'
+                ]),
+                urgencyWords: countOccurrences(text, [
+                    'immediately', 'right now', 'today only',
+                    'last chance', 'final warning'
+                ]),
+                
+                // Blue Flags (Low weight - can indicate real news)
+                hasNumbers: /\d+/.test(text),
+                hasDates: /\b\d{1,2}[\/\-]\d{1,2}[\/\-]\d{2,4}\b/.test(text),
+                hasSources: /according to|source said|studies show|research indicates/i.test(text),
+                quoteCount: (text.match(/["']/g) || []).length / 2
+            };
+            
+            // Calculate score (0-100, higher = more likely fake)
+            let fakeScore = 0;
+            fakeScore += indicators.exclamationCount * 8; // 8 points each
+            fakeScore += indicators.allCapsWords * 6;      // 6 points each
+            fakeScore += indicators.clickbaitPhrases * 10; // 10 points each
+            fakeScore += indicators.questionMarks * 3;     // 3 points each
+            fakeScore += indicators.emotionalWords * 4;    // 4 points each
+            fakeScore += indicators.urgencyWords * 5;      // 5 points each
+            
+            // Subtract points for credibility indicators
+            fakeScore -= indicators.hasNumbers * 2;        // -2 points each
+            fakeScore -= indicators.hasDates * 3;          // -3 points each
+            fakeScore -= indicators.hasSources * 4;        // -4 points each
+            fakeScore -= indicators.quoteCount * 3;        // -3 points each
+            
+            // Clamp score between 0-100
+            fakeScore = Math.max(0, Math.min(100, fakeScore));
+            
+            // 2. Determine verdict
+            let verdict, color, icon;
+            if (fakeScore >= 70) {
+                verdict = "⚠️ HIGHLY LIKELY FAKE NEWS";
+                color = "#dc3545"; // Red
+                icon = "❌";
+            } else if (fakeScore >= 40) {
+                verdict = "⚠️ SUSPICIOUS - Verify Carefully";
+                color = "#ffc107"; // Yellow
+                icon = "⚠️";
+            } else {
+                verdict = "✅ LIKELY REAL NEWS";
+                color = "#28a745"; // Green
+                icon = "✅";
+            }
+            
+            // 3. Linguistic analysis
+            const sentences = nlp.sentences().length;
+            const words = text.split(/\s+/).length;
+            const avgWordsPerSentence = words / (sentences || 1);
+            
+            // 4. Find named entities
+            const people = nlp.people().out('array');
+            const places = nlp.places().out('array');
+            const organizations = nlp.organizations().out('array');
+            
+            // 5. Get readability score
+            const readability = calculateReadability(text);
+            
+            return {
+                fakeScore,
+                verdict,
+                color,
+                icon,
+                indicators,
+                stats: {
+                    words,
+                    sentences,
+                    avgWordsPerSentence: avgWordsPerSentence.toFixed(1),
+                    readability
+                },
+                entities: {
+                    people: people.slice(0, 5), // Top 5
+                    places: places.slice(0, 5),
+                    organizations: organizations.slice(0, 5)
+                }
+            };
+        }
+
+        // Helper function to count occurrences
+        function countOccurrences(text, phrases) {
+            let count = 0;
+            const lowerText = text.toLowerCase();
+            phrases.forEach(phrase => {
+                if (lowerText.includes(phrase.toLowerCase())) {
+                    count++;
+                }
+            });
+            return count;
+        }
+
+        // Simple readability calculation
+        function calculateReadability(text) {
+            const words = text.split(/\s+/).length;
+            const sentences = text.split(/[.!?]+/).length - 1;
+            const characters = text.replace(/\s/g, '').length;
+            
+            if (words === 0 || sentences === 0) return "Very Easy";
+            
+            const avgWordsPerSentence = words / sentences;
+            const avgSyllablesPerWord = characters / words * 0.3; // Approximation
+            
+            // Flesch Reading Ease approximation
+            const score = 206.835 - (1.015 * avgWordsPerSentence) - (84.6 * avgSyllablesPerWord);
+            
+            if (score >= 80) return "Very Easy";
+            if (score >= 60) return "Easy";
+            if (score >= 50) return "Fairly Easy";
+            if (score >= 30) return "Difficult";
+            return "Very Difficult";
+        }
+
+        // Display results
+        function displayResults(analysis) {
+            const resultCard = document.getElementById('resultCard');
+            
+            // Create indicator cards
+            const indicatorCards = Object.entries(analysis.indicators)
+                .map(([key, value]) => {
+                    const label = key.replace(/([A-Z])/g, ' $1').replace(/^\w/, c => c.toUpperCase());
+                    return `
+                        <div class="indicator">
+                            <div class="indicator-title">${label}</div>
+                            <div class="indicator-value">${value}</div>
+                        </div>
+                    `;
+                })
+                .join('');
+            
+            // Create entity lists
+            const entityLists = `
+                ${analysis.entities.people.length ? `
+                    <p><strong>People mentioned:</strong> ${analysis.entities.people.join(', ')}</p>
+                ` : ''}
+                ${analysis.entities.places.length ? `
+                    <p><strong>Places mentioned:</strong> ${analysis.entities.places.join(', ')}</p>
+                ` : ''}
+                ${analysis.entities.organizations.length ? `
+                    <p><strong>Organizations:</strong> ${analysis.entities.organizations.join(', ')}</p>
+                ` : ''}
+            `;
+            
+            resultCard.innerHTML = `
+                <div class="result-header">
+                    <span class="verdict-icon">${analysis.icon}</span>
+                    <span class="verdict-text" style="color: ${analysis.color}">
+                        ${analysis.verdict}
+                    </span>
+                </div>
+                
+                <div class="score-meter">
+                    <div class="score-label">
+                        <span>Fake News Score</span>
+                        <span><strong>${Math.round(analysis.fakeScore)}/100</strong></span>
+                    </div>
+                    <div class="meter">
+                        <div class="meter-fill" style="
+                            width: ${analysis.fakeScore}%;
+                            background: ${analysis.color};
+                        "></div>
+                    </div>
+                    <p style="text-align: center; margin-top: 10px; color: #666; font-size: 0.9em;">
+                        Higher score = more likely to be fake news
+                    </p>
+                </div>
+                
+                <h3>📊 Text Analysis</h3>
+                <div class="indicators">
+                    ${indicatorCards}
+                </div>
+                
+                <h3>📈 Article Statistics</h3>
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 15px; margin: 15px 0;">
+                    <div class="indicator">
+                        <div class="indicator-title">Word Count</div>
+                        <div class="indicator-value">${analysis.stats.words}</div>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-title">Sentences</div>
+                        <div class="indicator-value">${analysis.stats.sentences}</div>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-title">Words per Sentence</div>
+                        <div class="indicator-value">${analysis.stats.avgWordsPerSentence}</div>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-title">Readability</div>
+                        <div class="indicator-value">${analysis.stats.readability}</div>
+                    </div>
+                </div>
+                
+                <div style="background: #f8f9fa; padding: 15px; border-radius: 10px; margin: 20px 0;">
+                    <h4 style="margin-bottom: 10px;">🧠 Named Entities Detected</h4>
+                    ${entityLists || '<p>No named entities detected</p>'}
+                </div>
+                
+                <div class="tips">
+                    <h3>🔍 Fact-Checking Tips</h3>
+                    <ul>
+                        <li><strong>Check the source:</strong> Look for established, reputable news organizations</li>
+                        <li><strong>Verify dates:</strong> Old news is often recirculated as new</li>
+                        <li><strong>Cross-reference:</strong> Search the story on multiple credible sources</li>
+                        <li><strong>Examine evidence:</strong> Real news cites sources, studies, or experts</li>
+                        <li><strong>Watch for emotions:</strong> Fake news often uses emotional, urgent language</li>
+                        <li><strong>Check URLs:</strong> Fake sites often mimic real ones with slight changes</li>
+                    </ul>
+                </div>
+            `;
+            
+            // Scroll to results
+            document.getElementById('resultSection').scrollIntoView({ 
+                behavior: 'smooth',
+                block: 'start'
+            });
+        }
+
+        // Initialize with sample text
+        window.onload = function() {
+            document.getElementById('newsInput').value = samples.fake;
+        };
+    </script>
+</body>
+</html>
