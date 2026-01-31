@@ -345,3 +345,17 @@ ul li{
     opacity: 1;
     pointer-events: all;
 }
+
+#btn-animate{
+    animation: change 1s infinite;
+}
+@keyframes change {
+    0%, 100%{
+        background-color: white;
+        color: #000;
+    }
+    50%{
+        background-color: red;
+        color: white;
+    }
+}

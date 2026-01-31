@@ -47,20 +47,21 @@
             <button class="article-btn" onclick="toggleContent(0)">For Url</button>
         </span>
 
-        <div class="article-div">
+        <!-- <div class="article-div">
             <form action='' method='POST'>              
-                <input type="text" style="min-width: 100%;" id="prediction-text" required placeholder="Enter your text here..">
+                <input type="text" style="min-width: 100%;" id="prediction-text" required placeholder="Enter your text here.."> -->
                 <!-- <button type="submit"><i class="fa fa-search" style="font-size:24px"></i></button> -->
-                <button type="submit" class="predict-btn" id="predict-text"><h5>Predict</h5></button>
-            </form>
-        </div>
+                <!-- <button type="submit" class="predict-btn" id="predict-text"><h5>Predict</h5></button> -->
+            <!-- </form>
+        </div> -->
 
-        <div class="url-div">
-            <form method="POST" action=''>
-                <input type="url" required name="url-article" id="prediction-url" size="50" placeholder="Paste your URL here...">
-                <button type="submit" class="predict-btn" id="predict-url"><h5>Predict</h5></button>
-            </form>
-        </div>
+        <!-- <div class="url-div"> -->
+            <!-- <form method="POST" action=''>
+                <input type="url" required name="url-article" id="prediction-url" size="50" placeholder="Paste your URL here..."> -->
+                <!-- <button type="submit" class="predict-btn" id="predict-url"><h5>Predict</h5></button> -->
+                <button class="predict-btn" id="predict-url" type="submit" style="width: 50%; height: auto; padding: 10px; font-size: larger; border-radius: 10px; outline: 0; border: none; cursor: pointer;" onmouseover="this.style.backgroundColor = 'black'; this.style.color = 'white'" onmouseleave="this.style.backgroundColor = 'white'; this.style.color = 'black'"><h5>Predict</h5></button>
+            <!-- </form> -->
+        <!-- </div> -->
 
         <h4 class="below_textarea">"The News is <span style="color: whitesmoke;">Real</span>"</h4>
     </div>
@@ -68,7 +69,7 @@
     <div class="footer">
         <div id="box-1">
             
-            <button data-modal-target="#modal">About This Project</button>
+            <button data-modal-target="#modal" id="btn-animate" style="width: 100%; height: auto; padding: 10px; font-size: larger; border-radius: 10px; text-align: center; outline: 0; border: none; cursor: pointer;" onmouseenter="this.style.backgroundColor = 'black'; this.style.color = 'white'" onmouseleave="this.style.backgroundColor = 'white'; this.style.color = 'black'">About This Project</button>
             <ul>
                 <!-- <li>IDENTIFYING FAKE NEWS IN SOCIAL MEDIA BASED ON SENTIMENT ANALYSIS USING ARTIFICIAL INTELLIGENCE</li> -->
                 <li>USING AI TO IDENTIFY SOCIAL MEDIA FAKE NEWS BASED ON SENTIMENT ANALYSIS</li>

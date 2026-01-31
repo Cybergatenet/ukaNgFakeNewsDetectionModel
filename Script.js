@@ -58,28 +58,30 @@ const predictURL = document.querySelector("#predict-url")
 predictURL.addEventListener("click", async (e) => {
     e.preventDefault()
     predictURL.innerHTML = "<h5>Loading...</h5>"
-     predictTEXT.setAttribute('disable', 'true')
+    predictURL.setAttribute('disable', 'true')
 
-    const newsText = predictionURL.value;
+    // const newsText = predictionURL.value;
     
-    window.location.href = "./fake-news-detector.html"
+    setTimeout(() => {
+      window.location.href = "./fake-news-detector.html"
+      // when completed !!
+      predictURL.innerHTML = "<h5>Predict</h5>"
+      predictURL.setAttribute('disable', 'false')
+    }, 3000)
 
-    // when completed !!
-    predictURL.innerHTML = "<h5>Predict</h5>"
-     predictTEXT.setAttribute('disable', 'false')
 })
 
 // Second button |||||||||||||||||||||||||||||||||||| SECOND BUTTON
-predictTEXT.addEventListener("click", async (e) => {
-    e.preventDefault()
-    predictTEXT.innerHTML = "<h5>Loading...</h5>"
-    predictTEXT.setAttribute('disable', 'true')
+// predictTEXT.addEventListener("click", async (e) => {
+//     e.preventDefault()
+//     predictTEXT.innerHTML = "<h5>Loading...</h5>"
+//     predictTEXT.setAttribute('disable', 'true')
 
-    const newsText = predictionTEXT.value;
+//     const newsText = predictionTEXT.value;
     
-    window.location.href = "./fake-news-detector.html"
+//     window.location.href = "./fake-news-detector.html"
 
-    // when completed !!
-    predictTEXT.innerHTML = "<h5>Predict</h5>"
-    predictTEXT.setAttribute('disable', 'false')
-})
+//     // when completed !!
+//     predictTEXT.innerHTML = "<h5>Predict</h5>"
+//     predictTEXT.setAttribute('disable', 'false')
+// })
