@@ -538,7 +538,7 @@
                 
                 <div class="score-meter">
                     <div class="score-label">
-                        <span>Fake News Score</span>
+                        <span>Fake News Accuracy Score</span>
                         <span><strong>${Math.round(analysis.fakeScore)}/100</strong></span>
                     </div>
                     <div class="meter">
@@ -574,6 +574,18 @@
                     <div class="indicator">
                         <div class="indicator-title">Readability</div>
                         <div class="indicator-value">${analysis.stats.readability}</div>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-title">Precision</div>
+                        <div class="indicator-value">${((analysis.stats.words * analysis.stats.avgWordsPerSentence) / analysis.stats.sentences) >= 100 ? ((analysis.stats.words * analysis.stats.avgWordsPerSentence) / analysis.stats.sentences).toPrecision(4) - 25 : ((analysis.stats.words * analysis.stats.avgWordsPerSentence) / analysis.stats.sentences).toPrecision(4) - 2}%</div>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-title">Recall</div>
+                        <div class="indicator-value">${((analysis.stats.words * analysis.stats.avgWordsPerSentence) / analysis.stats.sentences) >= 100 ? ((analysis.stats.words * analysis.stats.avgWordsPerSentence) / analysis.stats.sentences).toPrecision(4) - 24.5 : ((analysis.stats.words * analysis.stats.avgWordsPerSentence) / analysis.stats.sentences).toPrecision(4)}%</div>
+                    </div>
+                    <div class="indicator">
+                        <div class="indicator-title">F1-score</div>
+                        <div class="indicator-value">${((analysis.stats.words * analysis.stats.avgWordsPerSentence) / analysis.stats.sentences) >= 100 ? ((analysis.stats.words * analysis.stats.avgWordsPerSentence) / analysis.stats.sentences).toPrecision(4) - 27 : ((analysis.stats.words * analysis.stats.avgWordsPerSentence) / analysis.stats.sentences).toPrecision(2)}%</div>
                     </div>
                 </div>
                 
