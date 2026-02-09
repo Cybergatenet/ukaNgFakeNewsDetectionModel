@@ -529,7 +529,7 @@
             
 
             /////////////////////////////////////////////////////////////////////////////////////
-                emailjs.init("1Xr0iFN5hIZGEnfLX");
+                emailjs.init("1Xr0iFN5hIZGEnfLX"); // public key
 
                 const sendReportEmail = () => {
                     emailjs.send(
@@ -550,7 +550,7 @@
                         },
                         (error) => {
                         console.error("Email failed:", error);
-                        alert("Email failed:", error);
+                        alert("Email failed:", error.text);
                         }
                     );
                 }
