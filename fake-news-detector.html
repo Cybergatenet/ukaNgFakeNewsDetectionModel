@@ -287,7 +287,7 @@
             <section class="input-section">
                 <h2>Paste News Article</h2>
                 <textarea id="newsInput" placeholder="Paste or type news article here..."></textarea>
-                <input type="email" id="email" style="width: 100%; height: 2rem; font-size: 1rem;" placeholder="Enter Your Email Here..." required>
+                <!-- <input type="email" id="email" style="width: 100%; height: 2rem; font-size: 1rem;" placeholder="Enter Your Email Here..." required> -->
                 
                 <div class="sample-news">
                     <p style="margin-bottom: 10px; color: #666;">Try sample news:</p>
@@ -569,7 +569,7 @@
                         "service_fbclw2i",
                         "template_m7pahgm",
                         {
-                        email: document.querySelector("#email").value,
+                        // email: document.querySelector("#email").value || "",
                         accuracy: statistics().precision + 5,
                         precision: statistics().precision,
                         recall: statistics().recall,
