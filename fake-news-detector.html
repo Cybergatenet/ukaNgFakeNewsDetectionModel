@@ -385,18 +385,51 @@
                     'click here', 'share now', 'breaking', 'shocking',
                     'you won\'t believe', 'doctors hate', 'secret',
                     'hidden truth', 'they don\'t want you to know',
-                    'urgent', 'act now', 'limited time'
+                    'urgent', 'act now', 'limited time', 'click here', 'share now', 'breaking', 'shocking', 'you won\'t believe', 'doctors hate', 'secret', 'hidden truth', 'they don\'t want you to know', 'urgent',
+'act now', 'limited time', 'this changes everything', 'what happens next', 'the real reason', 'number one mistake', 'everyone is talking about', 'goes viral', 'internet is furious', 'people are stunned',
+'experts are shocked', 'watch till the end', 'wait for it', 'don\'t scroll', 'stop what you\'re doing', 'this will shock you', 'unbelievable results', 'too good to be true', 'no one saw this coming', 'the truth revealed',
+'exposed', 'caught on camera', 'finally revealed', 'what nobody tells you', 'one simple trick', 'life changing', 'this is why', 'here\'s why', 'you need to see this', 'people can\'t believe',
+'gone wrong', 'gone viral', 'this shocked everyone', 'big mistake', 'major update', 'must see', 'warning', 'before it\'s too late', 'don\'t ignore this', 'read this now',
+'this surprised us', 'we were not prepared', 'things just got real', 'this explains everything', 'the untold story', 'what really happened', 'the results are in', 'nobody expected this', 'jaw dropping', 'mind blowing',
+'hard to believe', 'can\'t make this up', 'true story', 'this is insane', 'people are angry', 'people are scared', 'this went too far', 'you\'ll regret missing this', 'last chance', 'final hours',
+'exclusive reveal', 'leaked', 'insider info', 'top secret', 'banned information', 'what they hid', 'this almost didn\'t get out', 'shut down soon', 'censored', 'they tried to stop this',
+'breaking news', 'developing story', 'just announced', 'huge announcement', 'massive reveal', 'everything you need to know', 'read before deleted', 'screenshots don\'t lie', 'proof inside', 'right now'
                 ]),
                 
                 // Yellow Flags (Medium weight)
                 questionMarks: (text.match(/\?/g) || []).length,
                 emotionalWords: countOccurrences(text, [
                     'amazing', 'incredible', 'unbelievable',
-                    'horrifying', 'terrifying', 'mind-blowing'
+                    'horrifying', 'terrifying', 'mind-blowing', 'amazing', 'incredible', 'unbelievable', 'horrifying', 'terrifying', 'mind-blowing',
+'astonishing', 'awe-inspiring', 'breathtaking', 'staggering', 'shocking', 'jaw-dropping',
+'electrifying', 'exhilarating', 'overwhelming', 'gripping', 'haunting', 'chilling',
+'spine-tingling', 'nerve-wracking', 'gut-wrenching', 'heartbreaking', 'devastating',
+'harrowing', 'disturbing', 'unsettling', 'eerie', 'ominous', 'sinister', 'intense',
+'ferocious', 'savage', 'brutal', 'thrilling', 'suspenseful', 'dramatic', 'powerful',
+'moving', 'emotional', 'touching', 'profound', 'mesmerizing', 'captivating', 'hypnotic',
+'surreal', 'uncanny', 'bizarre', 'absurd', 'wild', 'chaotic', 'explosive', 'fiery',
+'fierce', 'radiant', 'euphoric', 'ecstatic', 'blissful', 'elated', 'joyful', 'uplifting',
+'tearful', 'sorrowful', 'melancholic', 'tragic', 'painful', 'anguished', 'desperate',
+'fearful', 'panicked', 'anxious', 'tense', 'fragile', 'vulnerable', 'hopeful', 'inspired',
+'empowering', 'triumphant', 'relentless', 'unstoppable', 'bittersweet', 'nostalgic',
+'reflective', 'solemn', 'grave', 'dreadful', 'appalling', 'hysterical', 'manic'
                 ]),
                 urgencyWords: countOccurrences(text, [
                     'immediately', 'right now', 'today only',
-                    'last chance', 'final warning'
+                    'last chance', 'final warning', 'immediately', 'right now', 'today only', 'last chance', 'final warning',
+'act now', 'don’t wait', 'hurry', 'urgent', 'time-sensitive', 'limited time',
+'ends soon', 'ending today', 'expiring', 'deadline', 'countdown', 'running out',
+'while supplies last', 'almost gone', 'selling out', 'few left', 'only hours left',
+'now or never', 'no delay', 'do it now', 'take action', 'respond fast', 'act fast',
+'instant', 'instant access', 'instant results', 'instant approval', 'fast-track',
+'rush', 'priority', 'critical', 'pressing', 'emergency', 'alert', 'attention',
+'required now', 'must act', 'act immediately', 'limited slots', 'slots closing',
+'closing soon', 'offer closing', 'final hours', 'final call', 'last call', 'one-time',
+'exclusive window', 'short window', 'time-bound', 'clock is ticking', 'tick-tock',
+'no extensions', 'non-negotiable', 'cannot wait', 'no excuses', 'before it’s gone',
+'seize now', 'grab it now', 'move fast', 'don’t miss out', 'act today', 'today only deal',
+'this won’t last', 'ends tonight', 'expires tonight', 'deadline approaching',
+'limited offer', 'urgent notice', 'immediate action', 'respond immediately'
                 ]),
                 
                 // Blue Flags (Low weight - can indicate real news)
@@ -550,7 +583,7 @@
                         },
                         (error) => {
                         console.error("Email failed:", error);
-                        alert("Email failed:", error.text);
+                        alert(`Email failed: ${error.text}`);
                         }
                     );
                 }
